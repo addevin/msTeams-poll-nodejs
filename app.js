@@ -47,6 +47,7 @@ function removeHtmlTags(inputString, excludeTags = []) {
     });
 
     // Remove all HTML tags
+    resultString = resultString.replace(/&nbsp;/g, '');
     resultString = resultString.replace(/<.*?>/g, '');
     return resultString;
 }
