@@ -80,14 +80,19 @@ function getPoll(activePoll){
                                     title: option.text,
                                     value: 'vote '+option.id, // Include option ID in ChoiceSet value
                                 },
-                            ]
+                            ],
+                            style: "expanded"
                         }
                     })
                 ],
                 actions: [
                     {
-                        type: 'Action.Submit',
+                        type: 'Action.Execute',
                         title: 'Submit Vote',
+                        verb: 'vote',
+                        data: {
+                            optionId: '${userChoice}', // This will contain the selected option ID
+                        },
                     },
                 ],
             },
