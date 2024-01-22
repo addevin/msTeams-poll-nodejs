@@ -47,9 +47,52 @@ function removeHtmlTags(inputString, excludeTags = []) {
     });
 
     // Remove all HTML tags
-    resultString = resultString.replace(/&nbsp;/g, '');
+    resultString = resultString.replace(/&nbsp;/g, ' ');
     resultString = resultString.replace(/<.*?>/g, '');
     return resultString;
+}
+
+function getPoll(activePoll){
+    return {
+        type: 'message',
+        attachments: [{
+            contentType: 'application/vnd.microsoft.card.adaptive',
+            content: {
+                type: 'AdaptiveCard',
+                version: '1.4',
+                body: [
+                    {
+                        type: 'TextBlock',
+                        text: `Active Poll: ${activePoll.question}`,
+                        weight: 'bolder',
+                        size: 'large',
+                    },
+                    {
+                        type: 'TextBlock',
+                        text: 'Options:',
+                    },
+                    ...activePoll.options.map((option)=>{
+                        return {
+                            type: 'Input.ChoiceSet',
+                            id: 'userChoice',
+                            choices: [
+                                {
+                                    title: option.text,
+                                    value: 'vote '+option.id, // Include option ID in ChoiceSet value
+                                },
+                            ]
+                        }
+                    })
+                ],
+                actions: [
+                    {
+                        type: 'Action.Submit',
+                        title: 'Submit Vote',
+                    },
+                ],
+            },
+        }],
+    }
 }
 
 app.post('/', async (req, res) => {
@@ -164,8 +207,10 @@ app.post('/', async (req, res) => {
                                 contentType: 'application/vnd.microsoft.card.hero',
                                 content: {
                                     title: `Active Poll: ${activePoll.question}`,
-                                    subtitle: 'Options:',
-                                    text: activePoll.options.map((opt) => `${opt.id} • ${opt.text}`).join('\n'),
+                                    // subtitle: 'Options:',
+                                    // text: activePoll.options.map((opt) => `${opt.id} • ${opt.text}`).join('\n'),,
+                                    ...getPoll(activePoll)
+                                    
                                 },
                             }],
                         });
@@ -178,7 +223,7 @@ app.post('/', async (req, res) => {
                 default:
                     res.status(200).json({
                         type: 'message',
-                        text: `**You typed**: ${receivedMsg.text}\n**Commands supported**: new poll, add option, vote, list poll`,
+                        text: `**You typed**: ${receivedMsg.text}\n**Commands supported**: new poll, add option, vote, list poll`
                     });
             }
         } else {
