@@ -240,7 +240,9 @@ app.post('/', async (req, res) => {
     }
 });
 
-app.use({ type: 'message', text: 'Error: not supported!' })
+app.use((req, res) => {
+    res.status(200).send({ type: 'message', text: 'Error: not supported!' });
+})
 
 app.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
