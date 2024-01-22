@@ -209,10 +209,10 @@ app.post('/', async (req, res) => {
                                     title: `Active Poll: ${activePoll.question}`,
                                     // subtitle: 'Options:',
                                     // text: activePoll.options.map((opt) => `${opt.id} • ${opt.text}`).join('\n'),,
-                                    ...getPoll(activePoll)
                                     
                                 },
                             }],
+                            ...getPoll(activePoll)
                         });
                     } else {
                         res.status(200).json({ type: 'message', text: 'Active poll not found.' });
