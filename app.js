@@ -28,7 +28,7 @@ http.createServer(function (request, response) {
             var msgBuf = Buffer.from(payload, 'utf8');
             var msgHash = "HMAC " + crypto.createHmac('sha256', bufSecret).update(msgBuf).digest("base64");
             response.writeHead(200);
-            if (msgHash === auth) {
+            if (msgHash === auth || sharedSecret === auth) {
                 var receivedMsg = JSON.parse(payload);
 
                 // The text received to webhook
