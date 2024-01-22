@@ -241,6 +241,8 @@ app.post('/', async (req, res) => {
 });
 
 app.use((req, res) => {
+    console.log(req.body);
+    console.log(req.baseUrl);
     res.status(200).send({ type: 'message', text: 'Error: not supported!' });
 })
 
