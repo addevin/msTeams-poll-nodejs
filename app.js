@@ -228,7 +228,7 @@ app.post('/', async (req, res) => {
                 default:
                     res.status(200).json({
                         type: 'message',
-                        text: `**You typed**: ${receivedMsg.text}\n**Commands supported**: new poll, add option, vote, list poll`
+                        text: `**You typed**: ${receivedMsg.text}\n**Commands supported**: new poll <poll title>, add option <option title>, vote <optionId>, poll`
                     });
             }
         } else {
