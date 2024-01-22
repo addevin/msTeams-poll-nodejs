@@ -114,7 +114,7 @@ app.post('/', async (req, res) => {
                 }
 
                 case receivedText.includes('vote'): {
-                    const [optionId, user] = receivedText.replace('vote', '').trim().split(' ');
+                    const [optionId] = receivedText.replace('vote', '').trim();
 
                     if (!dbData.activePollId) {
                         res.status(200).json({ type: 'message', text: 'No active poll. Create a new poll first.' });
